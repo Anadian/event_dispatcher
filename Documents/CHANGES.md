@@ -1,1 +1,2 @@
-2019-11-16 v0.0.0 First commit.
+- 2019-11-16 v0.0.0 First commit.
+- 2020-04-05 v0.0.1 Preparing for first release; still need to do some clean up.

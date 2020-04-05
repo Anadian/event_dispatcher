@@ -41,6 +41,7 @@ const(
 	ERROR_CODE_SUBORDINATE_FUNCTION_ERROR int64 = 4;
 	ERROR_CODE_INVALID_MATCHKEY_TYPE int64 = 5;
 	ERROR_CODE_EVENT_LISTENER_MATCH int64 = 6;
+	ERROR_CODE_EVENT_PROCESSING_ERROR int64 = 7;
 	//## Private Constants
 );
 
@@ -361,6 +362,32 @@ func (event_dispatcher *EventDispatcher_struct) PopEvent() ( return_report error
 }
 
 /**
+* @fn ShiftEvent
+* @brief Extracts and returns the first event in the queue.
+* @struct event_dispatcher EventDispatcher_struct
+* @return ( return_report error_report.ErrorReport_struct ) 
+* @retval 0 Success
+* @retval 1 Not Supported
+* @retval >1 Error
+*/
+
+// ShiftEvent extracts and returns the first event in the queue.
+func (event_dispatcher EventDispatcher_struct) ShiftEvent() ( return_report error_report.ErrorReport_struct ){
+	//Variables
+	var function_return error_report.ErrorReport_struct;
+	//Parametres
+	//Function
+	function_return = event_dispatcher.ExtractEventByIndex( 0 );
+	if( function_return.NoError() == true ){
+		return_report = error_report.New( 0, map[string]interface{}{ "event": function_return.Data["event"] }, &function_return );
+	} else{
+		return_report = error_report.New( ERROR_CODE_SUBORDINATE_FUNCTION_ERROR, map[string]interface{}{}, &function_return );
+	}
+	//Return
+	return return_report;
+}
+
+/**
 * @fn ProcessEvent
 * @brief Transmits the given event.
 * @struct event_dispatcher EventDispatcher_struct
@@ -374,34 +401,12 @@ func (event_dispatcher *EventDispatcher_struct) PopEvent() ( return_report error
 // ProcessEvent transmits the given event.
 func (event_dispatcher EventDispatcher_struct) ProcessEvent( event Event_struct ) ( return_report error_report.ErrorReport_struct ){
 	//Variables
-	var i int; //Event listener index
-	var match bool;
-	var index_string string;
 	var function_return error_report.ErrorReport_struct;
 	//Parametres
 	event_dispatcher.mutex.Lock();
-	if( event_dispatcher.add_times == true ){
-		event.data["transmission_time"] = time.Now();
-	}
-	//Function
-	for i = 0; i < len(event_dispatcher.event_listeners_slice); i++ {
-		match, function_return = event_dispatcher.event_listeners_slice[i].key.Match( event.name );
-		if( function_return.NoError() == true ){
-			if( match == true ){
-				if( event_dispatcher.event_listeners_slice[i].async == true ){
-					go event_dispatcher.event_listeners_slice[i].function( event );
-				} else{
-					event_dispatcher.event_listeners_slice[i].function( event );
-				}
-			}
-		} else{
-			index_string = strconv.FormatUint( uint64(i), 10 );
-			if( return_report.CodeEqual( 0 ) == true ){
-				return_report = error_report.New( ERROR_CODE_EVENT_LISTENER_MATCH, map[string]interface{}{ "message": "Matching against an event listener returned an error.", index_string: function_return }, nil);
-			} else{
-				return_report.Data[index_string] = function_return;
-			}
-		}
+	function_return = event_dispatcher.ProcessEvent_Unsafe( event );
+	if( function_return.IsError() == true ){
+		return_report = error_report.New( ERROR_CODE_EVENT_PROCESSING_ERROR, map[string]interface{}{ "event": event }, &function_return );
 	}
 	event_dispatcher.mutex.Unlock();
 	//Return
@@ -449,6 +454,39 @@ func (event_dispatcher EventDispatcher_struct) ProcessEvent_Unsafe( event Event_
 				return_report.Data[index_string] = function_return;
 			}
 		}
+	}
+	//Return
+	return return_report;
+}
+
+/**
+* @fn ProcessEvents
+* @brief Processes all of the events in the queue.
+* @struct event_dispatcher EventDispatcher_struct
+* @return ( return_report error_report.ErrorReport_struct ) 
+* @retval 0 Success
+* @retval 1 Not Supported
+* @retval >1 Error
+*/
+
+// ProcessEvents processes all of the events in the queue.
+func (event_dispatcher EventDispatcher_struct) ProcessEvents() ( return_report error_report.ErrorReport_struct ){
+	//Variables
+	var function_return error_report.ErrorReport_struct;
+	var event Event_struct;
+	//Parametres
+	//Function
+	function_return = event_dispatcher.ShiftEvent();
+	if( function_return.NoError() == true ){
+		event = function_return.Data["event"].(Event_struct);
+		function_return = event_dispatcher.ProcessEvent( event );
+		if( function_return.NoError() == true ){
+			return_report = error_report.New( 0, map[string]interface{}{ "event": event }, nil );
+		} else{
+			return_report = error_report.New( ERROR_CODE_EVENT_PROCESSING_ERROR, map[string]interface{}{}, &function_return );
+		}
+	} else{
+		return_report = error_report.New( ERROR_CODE_SUBORDINATE_FUNCTION_ERROR, map[string]interface{}{}, &function_return );
 	}
 	//Return
 	return return_report;

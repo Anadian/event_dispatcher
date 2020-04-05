@@ -75,7 +75,7 @@ func TestEventDispatcher( t *testing.T ){
 	///Creating matchkeys
 	string_event_listener_matchkey, function_return = matchkey.New( matchkey.MATCHKEY_TYPE_STRING, "event_listener:string_test" );
 	path_event_listener_matchkey, function_return2 = matchkey.New( matchkey.MATCHKEY_TYPE_PATH, "event_listener:*_test" );
-	regex_event_listener_matchkey, function_return3 = matchkey.New( matchkey.MATCHKEY_TYPE_PATH, "event_listener:[a-zA-Z]*[_-]test" );
+	regex_event_listener_matchkey, function_return3 = matchkey.New( matchkey.MATCHKEY_TYPE_REGEX, "event_listener:[a-zA-Z]*[_-]test" );
 	if( function_return.NoError() && function_return2.NoError() && function_return3.NoError() ){
 		log.Printf("Success: No errors when creating needed matchkeys.\n");
 	} else{
@@ -213,7 +213,7 @@ func TestEventDispatcher( t *testing.T ){
 				log.Printf("Failure: event_dispatcher.PushEvent returned an error: %v\n", function_return);
 			}
 		} else{
-			log.Printf("Failure: NewEvent returned an error: %v\n", error);
+			log.Printf("Failure: NewEvent returned an error: %v\n", function_return);
 		}
 		//Create event path_test
 		function_return = NewEvent( "event_listener:path_test", map[string]interface{}{} );
@@ -227,7 +227,7 @@ func TestEventDispatcher( t *testing.T ){
 				log.Printf("Failure: event_dispatcher.PushEvent returned an error: %v\n", function_return);
 			}
 		} else{
-			log.Printf("Failure: NewEvent returned an error: %v\n", error);
+			log.Printf("Failure: NewEvent returned an error: %v\n", function_return);
 		}
 		//Create event regexpath_test
 		function_return = NewEvent( "event_listener:regexpath_test", map[string]interface{}{} );
@@ -241,7 +241,7 @@ func TestEventDispatcher( t *testing.T ){
 				log.Printf("Failure: event_dispatcher.PushEvent returned an error: %v\n", function_return);
 			}
 		} else{
-			log.Printf("Failure: NewEvent returned an error: %v\n", error);
+			log.Printf("Failure: NewEvent returned an error: %v\n", function_return);
 		}
 		//Create event regex-test
 		function_return = NewEvent( "event_listener:regex-test", map[string]interface{}{} );
@@ -255,7 +255,7 @@ func TestEventDispatcher( t *testing.T ){
 				log.Printf("Failure: event_dispatcher.PushEvent returned an error: %v\n", function_return);
 			}
 		} else{
-			log.Printf("Failure: NewEvent returned an error: %v\n", error);
+			log.Printf("Failure: NewEvent returned an error: %v\n", function_return);
 		}
 		//Create event 01_test
 		function_return = NewEvent( "event_listener:01_test", map[string]interface{}{} );
@@ -269,11 +269,24 @@ func TestEventDispatcher( t *testing.T ){
 				log.Printf("Failure: event_dispatcher.PushEvent returned an error: %v\n", function_return);
 			}
 		} else{
-			log.Printf("Failure: NewEvent returned an error: %v\n", error);
+			log.Printf("Failure: NewEvent returned an error: %v\n", function_return);
 		}
 	} else{
 		t.Fail();
 		log.Printf("Failure: NewEventDispatcher returned an error: %v \n", function_return);
+	}
+
+	//ProcessEvents
+	function_return = event_dispatcher.ProcessEvents();
+	if( function_return.NoError() == true ){
+		log.Printf("Success: Events processed successfully\n");
+	} else{
+		t.Fail();
+		log.Printf("Failure: event_dispatcher.ProcessEvents returned an error: %v\n", function_return);
+		if( function_return.CodeEqual( ERROR_CODE_EVENT_PROCESSING_ERROR ) == true ){
+			function_return = function_return.GetWrappedBottom();
+			log.Printf("Failure: Wrapped error report: %v\n", function_return);
+		}
 	}
 
 	//Return

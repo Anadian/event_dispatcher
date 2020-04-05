@@ -1,7 +1,7 @@
 # event-dispatcher
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![Semantic Versioning 2.0.0](https://img.shields.io/badge/semver-2.0.0-brightgreen?style=flat-square)](https://semver.org/spec/v2.0.0.html)
-[![License](https://img.shields.io/github/license/Anadian/event-dispatcher)](https://github.com/Anadian/event-dispatcher/Documents/LICENSE)
+[![License](https://img.shields.io/github/license/Anadian/event-dispatcher)](https://github.com/Anadian/event-dispatcher/LICENSE)
 
 > A simple, machine-local, thread-safe pub/sub event queue and dispatcher for golang.
 # Table of Contents
@@ -17,8 +17,8 @@ I created this project because, quite bluntly, there wasn't any other project, a
 # Usage
 # API
 # Contributing
-Changes are tracked in [Documents/CHANGES.md](./CHANGES.md).
+Changes are tracked in [CHANGES.md](./CHANGES.md).
 # License
 MIT ©2019 Anadian
 
-SEE LICENSE IN [Documents/LICENSE](./LICENSE)
+SEE LICENSE IN [LICENSE](./LICENSE)

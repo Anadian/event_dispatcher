@@ -1,0 +1,15 @@
+{
+	"language": "go",
+	"go": [
+		"1.13",
+		"1.14",
+		"master"
+	],
+	"before_install": [
+		"go get golang.org/x/tools/cmd/cover",
+		"go get github.com/mattn/goveralls"
+	],
+	"script": [
+		"$GOPATH/bin/goveralls -service=travis-ci"
+	]
+}
