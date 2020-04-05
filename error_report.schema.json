@@ -1,0 +1,37 @@
+{
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"title": "Error Report",
+	"description": "A JSON-Schema for validating Error Reports (error_report, ErrorReport_struct).",
+	"type": "object",
+	"properties": {
+		"Code": {
+			"title": "Code",
+			"description": "A signed integer value which should be unique to a specific error or type of errors. It's recommended that 0 be used to represent \"success\" or the absense of any errors. Values must be between -(2^53)-1 and (2^53)-1, inclusive.",
+			"type": "integer",
+			"minimum": -9007199254740991,
+			"maximum": 9007199254740991
+		},
+		"Data": {
+			"title": "Data",
+			"description": "An object/map/hash-table with strings for keys.",
+			"type": "object"
+		},
+		"Wrapped": {
+			"title": "Wrapped Error Report",
+			"description": "Must be null (nil) value or be another Error Report object.",
+			"oneOf": [
+				{
+					"$ref": "#"
+				},
+				{
+					"type": "null"
+				}
+			]
+		}
+	},
+	"required": [
+		"Code",
+		"Data",
+		"Wrapped"
+	]
+}
