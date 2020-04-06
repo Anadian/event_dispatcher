@@ -1,7 +1,10 @@
 # event-dispatcher
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![Semantic Versioning 2.0.0](https://img.shields.io/badge/semver-2.0.0-brightgreen?style=flat-square)](https://semver.org/spec/v2.0.0.html)
-[![License](https://img.shields.io/github/license/Anadian/event-dispatcher)](https://github.com/Anadian/event-dispatcher/LICENSE)
+[![License](https://img.shields.io/github/license/Anadian/event_dispatcher)](https://github.com/Anadian/event_dispatcher/LICENSE)
+[![GoDoc](https://godoc.org/github.com/Anadian/event_dispatcher/source?status.svg)](https://godoc.org/github.com/Anadian/event_dispatcher/source)
+[![Build Status](https://travis-ci.org/Anadian/event_dispatcher.svg?branch=master)](https://travis-ci.org/Anadian/event_dispatcher)
+[![Coverage Status](https://coveralls.io/repos/github/Anadian/event_dispatcher/badge.svg?branch=master)](https://coveralls.io/github/Anadian/event_dispatcher?branch=master)
 
 > A simple, machine-local, thread-safe pub/sub event queue and dispatcher for golang.
 # Table of Contents
