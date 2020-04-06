@@ -19,6 +19,6 @@ I created this project because, quite bluntly, there wasn't any other project, a
 # Contributing
 Changes are tracked in [CHANGES.md](./CHANGES.md).
 # License
-MIT ©2019 Anadian
+MIT ©2019-2020 Anadian
 
 SEE LICENSE IN [LICENSE](./LICENSE)

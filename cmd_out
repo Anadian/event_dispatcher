@@ -1,4 +1,0 @@
-# _/home/cameron/dev/event_dispatcher/source [_/home/cameron/dev/event_dispatcher/source.test]
-source/event_dispatcher_test.go:69:6: event declared but not used
-FAIL	_/home/cameron/dev/event_dispatcher/source [build failed]
-FAIL
