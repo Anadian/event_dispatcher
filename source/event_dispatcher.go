@@ -266,7 +266,7 @@ func (event_dispatcher *EventDispatcher_struct) InsertEventAtIndex( event Event_
 * @retval 0 Success
 * @retval 1 Not Supported
 * @retval >1 Error
-*/
+*
 
 // PublishEvent publishes the given event to listeners registered with the dispatcher.
 func (event_dispatcher EventDispatcher_struct) PublishEvent( event Event_struct ) ( return_report error_report.ErrorReport_struct ){
@@ -307,7 +307,7 @@ func (event_dispatcher EventDispatcher_struct) PublishEvent( event Event_struct 
 	event_dispatcher.mutex.Unlock();
 	//Return
 	return return_report;
-}
+} */
 
 /**
 * @fn PushEvent

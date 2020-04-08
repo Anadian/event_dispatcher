@@ -288,6 +288,61 @@ func TestEventDispatcher( t *testing.T ){
 			log.Printf("Failure: Wrapped error report: %v\n", function_return);
 		}
 	}
+	//RemoveEventListenerByStringLiteral
+	function_return = event_dispatcher.RemoveEventListenerByStringLiteral( regex_event_listener_matchkey.Matchkey_string );
+	if( function_return.NoError() == true ){
+		log.Printf("Success: Removed regex event listeners successfully.\n",);
+	} else{
+		t.Fail();
+		log.Printf("Failure: event_dispatcher.RemoveEventListenerByStringLiteral returned an error: %v\n", function_return);
+	}
+	//InsertEventAtIndex
+	function_return = event_dispatcher.InsertEventAtIndex( event, 0 );
+	if( function_return.NoError() == true ){
+		log.Printf("Success: Event inserted successfully.\n",);
+	} else{
+		t.Fail();
+		log.Printf("Failure: event_dispatcher.InsertEventAtIndex returned an error: %v\n", function_return);
+	}
+	function_return = event_dispatcher.InsertEventAtIndex( event, 0 );
+	if( function_return.NoError() == true ){
+		log.Printf("Success: Event inserted successfully.\n",);
+	} else{
+		t.Fail();
+		log.Printf("Failure: event_dispatcher.InsertEventAtIndex returned an error: %v\n", function_return);
+	}
+	//GetEventByIndex out of range
+	function_return = event_dispatcher.GetEventByIndex( 16 );
+	if( function_return.CodeEqual( ERROR_CODE_INDEX_OUT_OF_RANGE ) == true ){
+		log.Printf("Success: GetEventByIndex out of range.\n");
+	} else{
+		t.Fail();
+		log.Printf("Failure: Didn't get out of range (GetEventByIndex): %v\n", function_return);
+	}
+	//RemoveEventByIndex out of range
+	function_return = event_dispatcher.RemoveEventByIndex( 16 );
+	if( function_return.CodeEqual( ERROR_CODE_INDEX_OUT_OF_RANGE ) == true ){
+		log.Printf("Success: RemoveEventByIndex out of range.\n");
+	} else{
+		t.Fail();
+		log.Printf("Failure: Didn't get out of range (RemoveEventByIndex): %v\n", function_return);
+	}
+	//ExtractEventByIndex out of range
+	function_return = event_dispatcher.ExtractEventByIndex( 16 );
+	if( function_return.CodeEqual( ERROR_CODE_SUBORDINATE_FUNCTION_ERROR ) == true ){
+		log.Printf("Success: ExtractEventByIndex out of range.\n");
+	} else{
+		t.Fail();
+		log.Printf("Failure: Didn't get out of range (ExtractEventByIndex): %v\n", function_return);
+	}
+	//PopEvent
+	function_return = event_dispatcher.PopEvent();
+	if( function_return.NoError() == true ){
+		log.Printf("Success: PopEvent returned event: %v\n", function_return.Data["event"].(Event_struct));
+	} else{
+		t.Fail();
+		log.Printf("Failure: event_dispatcher.PopEvent returned an error: %v\n", function_return);
+	}
 
 	//Return
 }

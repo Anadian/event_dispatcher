@@ -2,3 +2,4 @@
 - 2020-04-05 v0.0.1 Preparing for first release; still need to do some clean up.
 - 2020-04-05 v0.0.2 First trial release.
 - 2020-04-05 v0.0.3 Added status badges to `README.md`.
+- 2020-04-08 v0.0.4 Added more test coverage.
